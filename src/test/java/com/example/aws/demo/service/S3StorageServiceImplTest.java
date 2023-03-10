@@ -19,14 +19,14 @@ class S3StorageServiceImplTest {
 
 	@Test
 	void downloadAsByteArray() {
-		byte[] byteArray = s3StorageService.downloadAsByteArray("io-web-local", "test.txt");
+		byte[] byteArray = s3StorageService.downloadAsByteArray("test-bucket", "test.txt");
 		assertThat(byteArray).isNotEmpty();
 	}
 
 	@Test
 	void testGetS3Url() {
-		String s3Url = s3StorageService.getS3Url("io-web-local", "test.txt");
-		assertThat(s3Url).isEqualTo("https://io-web-local.s3.amazonaws.com/test.txt");
+		String s3Url = s3StorageService.getS3Url("test-bucket", "test.txt");
+		assertThat(s3Url).isEqualTo("http://test-bucket.localhost:4566/test.txt");
 
 	}
 }

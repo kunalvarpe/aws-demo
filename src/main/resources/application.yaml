@@ -2,4 +2,4 @@ aws:
   access-key: "localstack"
   secret-key: "localstack"
   region: "us-east-1"
-  endpoint: ""
+  endpoint: "http://localhost:4566"
