@@ -26,7 +26,7 @@ class S3StorageServiceImplTest {
 	@Test
 	void testGetS3Url() {
 		String s3Url = s3StorageService.getS3Url("test-bucket", "test.txt");
-		assertThat(s3Url).isEqualTo("http://test-bucket.localhost:4566/test.txt");
+		assertThat(s3Url).isEqualTo("http://test-bucket.s3.localhost.localstack.cloud:4566/test.txt");
 
 	}
 }
