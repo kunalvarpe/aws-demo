@@ -1,15 +1,19 @@
-version: "3.4"
+version: "3.8"
 
 services:
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
     image: localstack/localstack
     ports:
-      - "4566-4599:4566-4599"
-      - "${PORT_WEB_UI-8055}:${PORT_WEB_UI-8055}"
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
     environment:
+      - DEBUG=${DEBUG-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
       - SERVICES=s3
-      - AWS_DEFAULT_REGION=us-east-1
     volumes:
-      - ./docker/files/test.txt:/home/test.txt
-      - ./docker/files/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
+      - "./docker/files/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./docker/files/test.txt:/home/test.txt"
