@@ -1,1 +1,1 @@
-Hi This is file from init script.
+Hi This is from test file from init script folder.

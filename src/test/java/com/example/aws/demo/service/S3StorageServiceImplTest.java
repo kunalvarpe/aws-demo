@@ -32,7 +32,7 @@ class S3StorageServiceImplTest {
 	void downloadAsByteArray() {
 		byte[] byteArray = s3StorageService.downloadAsByteArray("test-bucket", "test.txt");
 		assertThat(byteArray).isNotEmpty();
-		assertThat(new String(byteArray, UTF_8)).isEqualTo("Hi This is file from init script.");
+		assertThat(new String(byteArray, UTF_8)).isEqualTo("Hi This is from test file from init script folder.");
 	}
 
 	@Test
