@@ -32,3 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 volume/
+
+### maven ###
+target
+
+### Gradle ###
+.gradle
+build
+
+### Custom ####
+volume
