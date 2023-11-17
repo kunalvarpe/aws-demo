@@ -1,5 +1,12 @@
-aws:
-  access-key: "noop"
-  secret-key: "noop"
-  region: "us-east-1"
-  endpoint: "http://s3.localhost.localstack.cloud:4566"
+# Spring properties
+spring:
+  main:
+    banner-mode: OFF
+
+# Custom properties
+cloud:
+  aws:
+    access-key: "noop"
+    secret-key: "noop"
+    region: "us-east-1"
+    endpoint: "http://s3.localhost.localstack.cloud:4566"

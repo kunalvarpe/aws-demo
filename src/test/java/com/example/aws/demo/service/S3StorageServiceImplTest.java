@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import com.example.aws.demo.config.S3Configuration;
+import com.example.aws.demo.config.S3Properties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -16,10 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {
-		S3StorageServiceImpl.class,
-		S3Configuration.class
-})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class S3StorageServiceImplTest {
 
 	@TempDir

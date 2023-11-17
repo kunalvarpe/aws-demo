@@ -7,43 +7,41 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
 import static software.amazon.awssdk.transfer.s3.SizeConstant.MB;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class S3Configuration {
-	@Value("${aws.access-key}")
-	private String accessKey;
 
-	@Value("${aws.secret-key}")
-	private String secretKey;
-
-	@Value("${aws.region}")
-	private String region;
-
-	@Value("${aws.endpoint:#{null}}")
-	private String endpoint;
+	@Autowired
+	private S3Properties s3Properties;
 
 	@Bean
 	public S3AsyncClient s3AsyncClient(AwsCredentialsProvider awsCredentialsProvider) {
 		S3CrtAsyncClientBuilder s3CrtAsyncClientBuilder = S3AsyncClient.crtBuilder()
-				.region(Region.of(region))
+				.region(Region.of(s3Properties.region()))
 				.credentialsProvider(awsCredentialsProvider)
 				.targetThroughputInGbps(20.0)
 				.minimumPartSizeInBytes(8 * MB);
-		if (StringUtils.hasText(endpoint)) {
-			s3CrtAsyncClientBuilder.endpointOverride(URI.create(endpoint));
+		if (StringUtils.hasText(s3Properties.endpoint())) {
+			s3CrtAsyncClientBuilder.endpointOverride(URI.create(s3Properties.endpoint()));
 		}
 		return s3CrtAsyncClientBuilder.build();
 	}
 
 	@Bean
+	public S3TransferManager s3TransferManager(S3AsyncClient s3AsyncClient) {
+		return S3TransferManager.builder().s3Client(s3AsyncClient).build();
+	}
+
+	@Bean
 	AwsCredentialsProvider awsCredentialsProvider() {
-		return () -> AwsBasicCredentials.create(accessKey, secretKey);
+		return () -> AwsBasicCredentials.create(s3Properties.accessKey(), s3Properties.secretKey());
 	}
 }
