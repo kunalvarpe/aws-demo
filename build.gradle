@@ -1,0 +1,39 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.14'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'aws-demo'
+
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	awsSdkVersion = '2.19.1'
+	awsCrtVersion = '0.20.3'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation platform("software.amazon.awssdk:bom:$awsSdkVersion")
+	implementation 'software.amazon.awssdk:s3-transfer-manager'
+	implementation "software.amazon.awssdk.crt:aws-crt:${awsCrtVersion}"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootBuildImage {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+test {
+	useJUnitPlatform()
+}
