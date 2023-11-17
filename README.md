@@ -3,7 +3,7 @@ This project demonstrate the issue in `Spring Boot` + `localstack` The issue is 
 
 ## Usage
 
-Make locakstack container up and running.
+Make LocalStack container up and running.
 
 ```bash
 docker compose up -d
