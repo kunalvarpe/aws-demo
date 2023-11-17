@@ -27,6 +27,7 @@ dependencies {
 	implementation platform("software.amazon.awssdk:bom:$awsSdkVersion")
 	implementation 'software.amazon.awssdk:s3-transfer-manager'
 	implementation "software.amazon.awssdk.crt:aws-crt:${awsCrtVersion}"
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
