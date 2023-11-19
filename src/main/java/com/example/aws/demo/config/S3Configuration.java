@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -19,11 +18,9 @@ import static software.amazon.awssdk.transfer.s3.SizeConstant.MB;
 @Configuration(proxyBeanMethods = false)
 public class S3Configuration {
 
-	@Autowired
-	private S3Properties s3Properties;
-
 	@Bean
-	public S3AsyncClient s3AsyncClient(AwsCredentialsProvider awsCredentialsProvider) {
+	public S3AsyncClient s3AsyncClient(AwsCredentialsProvider awsCredentialsProvider,
+			S3Properties s3Properties) {
 		S3CrtAsyncClientBuilder s3CrtAsyncClientBuilder = S3AsyncClient.crtBuilder()
 				.region(Region.of(s3Properties.region()))
 				.credentialsProvider(awsCredentialsProvider)
@@ -41,7 +38,7 @@ public class S3Configuration {
 	}
 
 	@Bean
-	AwsCredentialsProvider awsCredentialsProvider() {
+	AwsCredentialsProvider awsCredentialsProvider(S3Properties s3Properties) {
 		return () -> AwsBasicCredentials.create(s3Properties.accessKey(), s3Properties.secretKey());
 	}
 }
